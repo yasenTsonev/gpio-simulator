@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -g -std=c99
 TARGET = gpio_simulator
 
 # Source files
-SRCS = src/main.c src/gpio.c src/cli.c
+SRCS = src/main.c src/gpio.c src/cli.c src/persistence.c
 OBJS = $(SRCS:.c=.o)
 
 # Default target

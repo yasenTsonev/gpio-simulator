@@ -42,7 +42,9 @@ static const menu_command_t menu_commands[] = {
     {3, "read", handle_read_interactive, "Read Input Pin Value"},
     {4, "simulate", handle_simulate_interactive, "Simulate Input Value"},
     {5, "list", handle_list_wrapper, "List All Pin States"},
-    {6, "help", handle_help_interactive, "Show Help"},
+    {6, "save", handle_save_interactive, "Save GPIO State to File"},
+    {7, "load", handle_load_interactive, "Load GPIO State from File"},        
+    {8, "help", handle_help_interactive, "Show Help"},
     {0, "exit", NULL, "Exit Program"},
     {-1, NULL, NULL, NULL} // Sentinel
 };

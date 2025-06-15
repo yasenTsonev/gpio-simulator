@@ -18,6 +18,9 @@ int handle_read_interactive(gpio_system_t *gpio, int argc, char *argv[]);
 int handle_simulate_interactive(gpio_system_t *gpio, int argc, char *argv[]);
 int handle_help_interactive(gpio_system_t *gpio, int argc, char *argv[]);
 
+int handle_save_interactive(gpio_system_t *gpio, int argc, char *argv[]);
+int handle_load_interactive(gpio_system_t *gpio, int argc, char *argv[]);
+
 
 void print_usage(const char *program_name);
 

@@ -17,7 +17,7 @@
 //     printf("Pin %d set to %s\n", pin, argv[3]);
 //     return 0;
 // }
-
+#include "persistence.h"
 #include "cli.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -302,3 +302,46 @@ int handle_help_interactive(gpio_system_t *gpio, int argc, char *argv[]) {
     
     return 0;
 }
+
+int handle_save_interactive(gpio_system_t *gpio, int argc, char *argv[]) {
+    (void)argc; (void)argv;
+    
+    char filename[256];
+    printf("Enter filename (or press Enter for default '%s'): ", DEFAULT_STATE_FILE);
+    
+    if (fgets(filename, sizeof(filename), stdin) != NULL) {
+        // Remove newline
+        filename[strcspn(filename, "\n")] = 0;
+        
+        // Use default if empty
+        if (strlen(filename) == 0) {
+            strcpy(filename, DEFAULT_STATE_FILE);
+        }
+        
+        return gpio_save_state(gpio, filename);
+    }
+    
+    return 1;
+}
+
+int handle_load_interactive(gpio_system_t *gpio, int argc, char *argv[]) {
+    (void)argc; (void)argv;
+    
+    char filename[256];
+    printf("Enter filename (or press Enter for default '%s'): ", DEFAULT_STATE_FILE);
+    
+    if (fgets(filename, sizeof(filename), stdin) != NULL) {
+        // Remove newline
+        filename[strcspn(filename, "\n")] = 0;
+        
+        // Use default if empty
+        if (strlen(filename) == 0) {
+            strcpy(filename, DEFAULT_STATE_FILE);
+        }
+        
+        return gpio_load_state(gpio, filename);
+    }
+    
+    return 1;
+}
+
