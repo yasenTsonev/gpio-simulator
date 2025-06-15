@@ -190,3 +190,115 @@ int handle_list_wrapper(gpio_system_t *gpio, int argc, char *argv[]) {
     (void)argv; // Suppress unused parameter warning
     return handle_list(gpio);
 }
+
+
+int handle_set_mode_interactive(gpio_system_t *gpio, int argc, char *argv[]) {
+    (void)argc; (void)argv; // Suppress warnings
+    
+    int pin, mode_choice;
+    
+    printf("Enter pin number (0-%d): ", MAX_GPIO_PINS - 1);
+    if (scanf("%d", &pin) != 1) {
+        printf("Invalid input.\n");
+        return 1;
+    }
+    
+    printf("Select mode:\n");
+    printf("1. Input\n");
+    printf("2. Output\n");
+    printf("Enter choice: ");
+    if (scanf("%d", &mode_choice) != 1) {
+        printf("Invalid input.\n");
+        return 1;
+    }
+    
+    gpio_mode_t mode = (mode_choice == 1) ? GPIO_MODE_INPUT : GPIO_MODE_OUTPUT;
+    
+    if (gpio_set_mode(gpio, pin, mode) < 0) {
+        return 1;
+    }
+    
+    printf("Pin %d configured as %s\n", pin, 
+           (mode == GPIO_MODE_INPUT) ? "INPUT" : "OUTPUT");
+    return 0;
+}
+
+int handle_write_interactive(gpio_system_t *gpio, int argc, char *argv[]) {
+    (void)argc; (void)argv; // Suppress warnings
+    
+    int pin, value;
+    
+    printf("Enter pin number (0-%d): ", MAX_GPIO_PINS - 1);
+    if (scanf("%d", &pin) != 1) {
+        printf("Invalid input.\n");
+        return 1;
+    }
+    
+    printf("Enter value (0 or 1): ");
+    if (scanf("%d", &value) != 1) {
+        printf("Invalid input.\n");
+        return 1;
+    }
+    
+    if (gpio_write(gpio, pin, value) < 0) {
+        return 1;
+    }
+    
+    printf("Pin %d set to %d\n", pin, value);
+    return 0;
+}
+
+int handle_read_interactive(gpio_system_t *gpio, int argc, char *argv[]) {
+    (void)argc; (void)argv; // Suppress warnings
+    
+    int pin;
+    
+    printf("Enter pin number (0-%d): ", MAX_GPIO_PINS - 1);
+    if (scanf("%d", &pin) != 1) {
+        printf("Invalid input.\n");
+        return 1;
+    }
+    
+    int value = gpio_read(gpio, pin);
+    if (value != -1) {
+        printf("Pin %d value: %d\n", pin, value);
+    }
+    
+    return (value == -1) ? 1 : 0;
+}
+
+int handle_simulate_interactive(gpio_system_t *gpio, int argc, char *argv[]) {
+    (void)argc; (void)argv; // Suppress warnings
+    
+    int pin, value;
+    
+    printf("Enter pin number (0-%d): ", MAX_GPIO_PINS - 1);
+    if (scanf("%d", &pin) != 1) {
+        printf("Invalid input.\n");
+        return 1;
+    }
+    
+    printf("Enter simulated value (0 or 1): ");
+    if (scanf("%d", &value) != 1) {
+        printf("Invalid input.\n");
+        return 1;
+    }
+    
+    return gpio_simulate(gpio, pin, value);
+}
+
+int handle_help_interactive(gpio_system_t *gpio, int argc, char *argv[]) {
+    (void)gpio; (void)argc; (void)argv; // Suppress warnings
+    
+    printf("\nAvailable Commands:\n");
+    printf("==================\n");
+    printf("1. Set Pin Mode    - Configure a pin as input or output\n");
+    printf("2. Set Output Value - Write 0 or 1 to an output pin\n");
+    printf("3. Read Pin Value  - Read current value of a pin\n");
+    printf("4. Simulate Input  - Simulate external input on a pin\n");
+    printf("5. List Pin States - Show all configured pins\n");
+    printf("6. Help           - Show this help message\n");
+    printf("0. Exit           - Exit the program\n");
+    
+    return 0;
+}

@@ -119,6 +119,7 @@ int gpio_simulate(gpio_system_t *gpio, int pin, int value) {
     
     // For simulation, we allow setting any pin's value regardless of mode
     // This simulates external signals on input pins or confirms output values
+    // TODO Should this behave like this though? 
     int old_value = gpio->pins[pin].value;
     gpio->pins[pin].value = value;
     
