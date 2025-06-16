@@ -20,3 +20,15 @@ clean:
 	rm -f $(OBJS) $(TARGET)
 
 .PHONY: all clean
+
+# Test target
+test: tests/test_gpio
+	./tests/test_gpio
+
+tests/test_gpio: tests/test_gpio.c src/gpio.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+clean-test:
+	rm -f tests/test_gpio
+
+.PHONY: test clean-test
